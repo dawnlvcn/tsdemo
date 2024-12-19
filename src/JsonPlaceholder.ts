@@ -8,19 +8,18 @@ interface Comment {
     body: string;
 }
 
-async function printCommentNames() {
-    try {
-        const url = 'https://jsonplaceholder.typicode.com/comments?postId=1';
-        const response = await NetworkUtils.fetchWithCache<Comment[]>(url);
-        
-        console.log('评论标题列表：');
-        response.forEach((comment, index) => {
-            console.log(`${index + 1}. ${comment.name}`);
-        });
-    } catch (error) {
-        console.error('获取数据时发生错误：', error);
-    }
-}
+export class CommentService {
+    private static readonly BASE_URL = 'https://jsonplaceholder.typicode.com/comments';
 
-// 执行函数
-printCommentNames(); 
+    async getCommentNames(postId: number = 1): Promise<string[]> {
+        try {
+            const url = `${CommentService.BASE_URL}?postId=${postId}`;
+            const response = await NetworkUtils.fetchWithCache<Comment[]>(url);
+            
+            return response.map(comment => comment.name);
+        } catch (error) {
+            console.error('获取数据时发生错误：', error);
+            return [];
+        }
+    }
+} 

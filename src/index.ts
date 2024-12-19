@@ -3,6 +3,7 @@ import { ObjectUtils, AsyncUtils, DataUtils } from './utils/intermediate';
 import { Patterns, Algorithms, Business } from './utils/advanced';
 import { BoundaryUtils, PerformanceUtils, DependencyUtils } from './utils/special';
 import { EventUtils, NetworkUtils, StateUtils, ValidationUtils } from './utils/complex';
+import { CommentService } from './JsonPlaceholder';
 
 // === 测试基础工具类 ===
 console.log('\n=== Testing Basic Utils ===');
@@ -350,4 +351,17 @@ const invalidData = {
 };
 
 const invalidResult = ValidationUtils.validateComplex(invalidData, validationRules);
-console.log('Invalid data validation result:', invalidResult); 
+console.log('Invalid data validation result:', invalidResult);
+
+// === 测试 CommentService ===
+console.log('\n=== Testing CommentService ===');
+
+(async () => {
+    const commentService = new CommentService();
+    const names = await commentService.getCommentNames();
+    
+    console.log('\n--- Comment Names ---');
+    names.forEach((name, index) => {
+        console.log(`${index + 1}. ${name}`);
+    });
+})(); 
