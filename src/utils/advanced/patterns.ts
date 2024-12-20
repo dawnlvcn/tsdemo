@@ -6,14 +6,14 @@ export class Patterns {
      * 单例模式
      */
     static Singleton = class {
-        private static instance: any;
+        static #instance: any;
         protected constructor() {}
 
         static getInstance(): any {
-            if (!this.instance) {
-                this.instance = new this();
+            if (!this.#instance) {
+                this.#instance = new this();
             }
-            return this.instance;
+            return this.#instance;
         }
     }
 
@@ -21,17 +21,17 @@ export class Patterns {
      * 观察者模式
      */
     static Observer = class<T> {
-        private observers: ((data: T) => void)[] = [];
+        #observers: ((data: T) => void)[] = [];
 
         subscribe(fn: (data: T) => void): () => void {
-            this.observers.push(fn);
+            this.#observers.push(fn);
             return () => {
-                this.observers = this.observers.filter(observer => observer !== fn);
+                this.#observers = this.#observers.filter(observer => observer !== fn);
             };
         }
 
         notify(data: T): void {
-            this.observers.forEach(observer => observer(data));
+            this.#observers.forEach(observer => observer(data));
         }
     }
 
